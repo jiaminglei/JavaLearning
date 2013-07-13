@@ -1,0 +1,72 @@
+
+public class QuickSortGood {
+  public void quicksort(int[] a){
+		qsort(a, 0, a.length-1);
+	}
+	
+	public void qsort(int[] a, int left, int right){
+		if (right - left + 1 >= 3){ //只针对元素个数不小于3的数组排序（否则，下面方法不成立，会抛数组越界异常）
+			int privot = median3(a, left, right);
+			
+			int i = left, j = right-1;
+			while (true){
+				while (a[++i] < privot){}
+				while (a[--j] > privot){}
+				
+				if (i < j){
+					swapReference(a, i, j);
+				}
+				else {
+					break;
+				}
+			}
+			
+			swapReference(a, i, right-1);
+			for(int k : a){
+				System.out.print(k + " ");
+			}
+			System.out.println();
+			qsort(a, left, i-1);
+			qsort(a, i+1, right);
+		}
+		else{
+			if (a[right] < a[left])
+				swapReference(a, left, right);
+		}
+	}
+	
+	public int median3(int[] a, int left, int right){
+		int center = (left + right) / 2;
+		
+		if (a[center] < a[left]){
+			swapReference(a, center, left);
+		}
+		if (a[right] < a[left]){
+			swapReference(a, left, right);
+		}
+		if(a[right] < a[center]){
+			swapReference(a, right, center);
+		}
+		//将中值放在倒数第二个位置上
+		swapReference(a, center, right-1);
+		
+		return a[right-1];
+	}
+	
+	public void swapReference(int[] a, int left, int right){
+		int temp = a[left];
+		a[left] = a[right];
+		a[right] = temp;
+	}
+
+	public static void main(String[] args){
+		QuickSortGood qSortGood = new QuickSortGood();
+		int[] a = {8,0,5,9,1,7,6,5,15,5};
+
+		qSortGood.quicksort(a);
+		
+		for(int i : a){
+			System.out.print(i + " ");
+		}
+	}
+}
