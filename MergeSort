@@ -1,0 +1,67 @@
+package com.java.test;
+
+import java.util.Arrays;
+
+public class MergeSort {
+	public static void main(String[] args){
+		
+		int [] a = {5,15,2,4,1,10,7};
+		
+		mergeSort(a);
+		
+		System.out.println(Arrays.toString(a));
+	}
+	
+	private static void mergeSort(int [] a){
+		int [] tempArray = new int[a.length];
+		
+		mergeSort(a, tempArray, 0, a.length-1);
+	}
+	
+	private static void mergeSort(int [] a, int [] tempArray, int left, int right){
+		if (left < right){
+			int center = (left+right)/2;
+			
+			mergeSort(a, tempArray, left, center);
+			mergeSort(a, tempArray, center+1, right);
+			
+			merge(a, tempArray, left, center+1, right);
+		}
+		
+	}
+	
+	/**
+	 * 两个有序序列，合并为一个有序序列
+	 * @param a
+	 * @param tempArray
+	 * @param leftPos 第一个序列的起始下标
+	 * @param rightPos 第二个序列的起始下标
+	 * @param rightEnd 第二个序列的结束下标
+	 */
+	private static void merge(int [] a, int [] tempArray, int leftPos, int rightPos, int rightEnd){
+		int tempPos = leftPos;
+		int tempRightPos = rightPos;
+		int numLength = rightEnd-leftPos+1;
+		
+		while(leftPos < tempRightPos && rightPos <= rightEnd){
+			if (a[leftPos] <= a[rightPos]){
+				tempArray[tempPos++] = a[leftPos++];
+			}else {
+				tempArray[tempPos++] = a[rightPos++];
+			}
+				
+		}
+		
+		while(leftPos < tempRightPos){
+			tempArray[tempPos++] = a[leftPos++];
+		}
+		
+		while(rightPos <= rightEnd){
+			tempArray[tempPos++] = a[rightPos++];
+		}
+		
+		for (int i = 1; i <= numLength; ++i, rightEnd--){
+			a[rightEnd] = tempArray[rightEnd];
+		}
+	}
+}
